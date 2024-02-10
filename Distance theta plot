@@ -1,0 +1,40 @@
+import matplotlib.pyplot as plt
+import numpy as np
+
+# Constants
+AU_to_meters = 1.496e11  # Conversion factor from Astronomical Units to meters
+
+# Orbital elements
+a = 17.87 * AU_to_meters  # Semi-major axis in meters
+e = 0.966769  # Eccentricity
+
+# Function to calculate r based on theta
+def calculate_r(theta, a, e):
+    return a * (1 - e**2) / (1 + e * np.cos(np.radians(theta)))
+
+# Generate theta values from 0 to 360 degrees
+theta_values = np.linspace(0, 360, 1000)
+
+# Calculate r values using the orbital elements
+r_values = calculate_r(theta_values, a, e)
+
+# Scale down r for plotting
+r_values_scaled = r_values / AU_to_meters
+
+# Plotting r against theta
+plt.figure(figsize=(10, 6))
+plt.plot(theta_values, r_values_scaled)
+
+# Set the range for the x-axis from 0 to 360 degrees
+plt.xlim(0, 360)
+
+# Add labels and a title
+plt.xlabel('Theta (degrees)')
+plt.ylabel('Distance from Sun (AU)')
+plt.title("Halley's Comet Orbit")
+
+# Add a grid for better readability
+plt.grid(True)
+
+# Show the plot
+plt.show()
