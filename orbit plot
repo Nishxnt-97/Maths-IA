@@ -1,0 +1,44 @@
+# Re-importing numpy and matplotlib since the session has been reset
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Constants
+AU_to_meters = 1.496e11  # Conversion factor from Astronomical Units to meters
+
+# Orbital elements for Halley's Comet
+a = 17.87  # Semi-major axis in AU
+e = 0.966769  # Eccentricity
+
+# Function to calculate r based on theta
+def calculate_r(theta, a, e):
+    # Convert theta to radians for calculation
+    theta_rad = np.radians(theta)
+    return a * (1 - e**2) / (1 + e * np.cos(theta_rad))
+
+# Generate theta values from 0 to 360 degrees
+theta_values = np.linspace(0, 360, 1000)
+
+# Calculate r values using the orbital elements
+r_values = calculate_r(theta_values, a, e)
+
+# Convert polar coordinates to Cartesian coordinates for plotting
+x_values = r_values * np.cos(np.radians(theta_values))
+y_values = r_values * np.sin(np.radians(theta_values))
+
+# Plotting the orbit with the Sun at the focus
+plt.figure(figsize=(8, 8))
+plt.plot(x_values, y_values, label="Halley's Comet Orbit")
+
+# Plot the Sun at the origin (focus of the ellipse)
+plt.scatter([0], [0], color='orange', label="Sun", zorder=5)
+
+# Enhance the plot
+plt.title("Orbit of Halley's Comet (AU)")
+plt.xlabel("Distance (AU)")
+plt.ylabel("Distance (AU)")
+plt.axhline(0, color='black', linewidth=0.5)
+plt.axvline(0, color='black', linewidth=0.5)
+plt.grid(True)
+plt.axis('equal')
+plt.legend()
+plt.show()
